@@ -75,6 +75,16 @@ This spends your Factory subscription's token allowance from a client other than
 droid, which Factory gates against. Your account, your call — but it is not a
 sanctioned integration.
 
+Factory's content filter also matches a handful of other coding agents' system
+prompts, and it scans the whole request — not just the system prompt. So if the
+agent reads a file that happens to contain one of those exact sentences, the
+request fails with `Error: 403 status code (no body)`, and keeps failing while
+that text stays in context. `/compact` or a fresh session clears it.
+
+Normal projects never contain those strings, so in practice this only comes up
+when working on agent tooling — including this repo, whose own source has one of
+the blocked sentences in a regex.
+
 ## License
 
 MIT
