@@ -1,8 +1,18 @@
 # pi-droid-provider
 
-Use the models from your [Factory](https://factory.ai) subscription inside
-[pi-coding-agent](https://pi.dev) — Claude, GPT, Gemini, GLM, Kimi, DeepSeek,
-MiniMax and Nemotron, 42 models in all.
+[Factory](https://factory.ai) subscription provider for
+[pi-coding-agent](https://pi.dev). Use **all** 42 droid models — Claude, GPT,
+Gemini, GLM, Kimi, DeepSeek, MiniMax, Nemotron — inside pi with your Factory
+API key.
+
+## Problem
+
+Factory gates its LLM proxy: it only serves requests that look exactly like
+the droid CLI — the system prompt must open with droid's identity sentence,
+each model family wants a different thinking-parameter shape, backends must be
+picked per model, and Claude is served through Bedrock with an older tool
+schema. Point pi at Factory raw and every request fails with a bare
+`403 Forbidden`.
 
 ## What this does
 
@@ -15,22 +25,12 @@ behind one host:
 | GLM, Kimi, Gemini, DeepSeek, Nemotron | `/api/llm/o/v1/chat/completions` | OpenAI Chat Completions |
 | GPT-5.x | `/api/llm/o/v1/responses` | OpenAI Responses |
 
-plus the Factory-specific quirks needed to make it work:
-
-- **Request gating** — Factory only serves requests whose system prompt opens
-  with droid's identity sentence, so the provider prefixes it and rewords pi's
-  identity to keep the rest of the prompt coherent.
-- **Thinking parameters** — each model family wants a different thinking shape
-  (`thinking: {type: "adaptive"}` + `output_config.effort` for newer Claude,
-  the stock Anthropic shape for older ones); the catalog records which.
-- **Backend selection** — `x-api-provider` picks the upstream for models
-  served by more than one (e.g. Fireworks vs Baseten for `glm-5.2`).
-- **Bedrock compatibility** — Claude is served via Bedrock, which rejects the
-  newer `eager_input_streaming` field, so the provider opts into pi's legacy
-  tool-streaming fallback.
-
-Streaming, tool calling and reasoning all work. Reasoning renders in the TUI;
-`pi -p` print mode omits it.
+- ✅ prefixes the droid identity sentence and rewords pi's own identity so the
+  rest of pi's prompt stays coherent
+- ✅ per-model thinking shapes, `x-api-provider` backend selection, and
+  Bedrock's legacy tool-streaming fallback — all recorded in the catalog
+- ✅ streaming, tool calling and reasoning all work (reasoning renders in the
+  TUI; `pi -p` print mode omits it)
 
 ## Install
 
@@ -39,13 +39,21 @@ pi install npm:pi-droid-provider
 export FACTORY_API_KEY=fk-...   # from app.factory.ai/settings/api-keys
 ```
 
+Restart Pi (or `/reload`), then:
+
 ```bash
 pi --model droid/claude-opus-5
 pi --model droid/glm-5.2 --thinking high
 pi --model droid/gpt-5.6-luna -p "explain this repo"
 ```
 
-`/model` lists everything the provider registers.
+## Verify
+
+```bash
+pi --model droid/claude-opus-5 -p "say hi"
+```
+
+`/model` inside pi lists everything the provider registers.
 
 ## The catalog
 
