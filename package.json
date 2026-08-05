@@ -3,12 +3,31 @@
   "version": "0.1.0",
   "description": "Use Factory Droid's models (Claude, GPT, Gemini, GLM, Kimi, MiniMax) from the pi coding agent with a Factory API key",
   "license": "MIT",
-  "type": "module",
-  "keywords": ["pi", "pi-extension", "pi-provider", "factory", "droid"],
-  "pi": {
-    "extensions": ["./src/index.ts"]
+  "author": "bzzimmy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bzzimmy/pi-droid.git"
   },
-  "files": ["src", "README.md"],
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-extension",
+    "pi-provider",
+    "pi-coding-agent",
+    "factory",
+    "droid"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
     "@earendil-works/pi-ai": "*",
     "@earendil-works/pi-coding-agent": "*"
