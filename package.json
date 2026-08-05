@@ -1,5 +1,5 @@
 {
-  "name": "pi-droid-provider",
+  "name": "@bzzimmy/pi-droid",
   "version": "0.1.1",
   "description": "Use Factory Droid's models (Claude, GPT, Gemini, GLM, Kimi, MiniMax) from the pi coding agent with a Factory API key",
   "license": "MIT",
@@ -31,5 +31,8 @@
   "peerDependencies": {
     "@earendil-works/pi-ai": "*",
     "@earendil-works/pi-coding-agent": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,4 +1,4 @@
-# pi-droid-provider
+# @bzzimmy/pi-droid
 
 [Factory](https://factory.ai) subscription provider for
 [pi-coding-agent](https://pi.dev). Use **all** 42 droid models — Claude, GPT,
@@ -35,7 +35,7 @@ behind one host:
 ## Install
 
 ```bash
-pi install npm:pi-droid-provider
+pi install npm:@bzzimmy/pi-droid
 export FACTORY_API_KEY=fk-...   # from app.factory.ai/settings/api-keys
 ```
 
